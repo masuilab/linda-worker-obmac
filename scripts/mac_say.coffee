@@ -15,8 +15,10 @@ module.exports = (linda) ->
     linda.debug "watching {type: 'say', where: '#{config.where}'} in tuplespace '#{ts.name}'"
     linda.debug "=> #{config.linda.url}/#{ts.name}?type=say&where=#{config.where}&value=hello"
 
-    ts.watch {type: 'say', where: config.where}, (err, tuple) ->
+    ts.watch {type: 'say'}, (err, tuple) ->
       return if tuple.data.response?
+      where = tuple.data.where
+      return if typeof where is 'string' and where isnt config.where
       if err
         linda.debug err
         return
@@ -26,6 +28,7 @@ module.exports = (linda) ->
         exec cmd, (err, stdout, stderr) ->
           data = tuple.data
           data.response = if err then "fail" else "success"
+          data.where = config.where
           ts.write data
 
   String::sanitize = ->
