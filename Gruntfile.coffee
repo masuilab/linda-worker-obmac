@@ -18,9 +18,7 @@ module.exports = (grunt) ->
     jsonlint:
       config:
         src: [
-          'package.json'
-          'external-scripts.json'
-          'hubot-scripts.json'
+          '*.json'
         ]
 
     coffeelint:

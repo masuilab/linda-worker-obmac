@@ -5,6 +5,7 @@ bodyParser = require 'body-parser'
 router = express()
 router.disable 'x-powered-by'
 router.use bodyParser.urlencoded(extended: true)
+router.use bodyParser.json()
 
 http = require('http').Server(router)
 

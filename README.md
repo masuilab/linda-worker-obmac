@@ -1,15 +1,17 @@
 # linda-worker-obmac
 
-## Config
+generated with [generator-linda](https://npmjs.org/package/generator-linda) v0.2.6
+
+## SETUP
 
 edit `config.json`
 
-## Scripts
+### Scripts
 
 put into `scritps` directory.
 
 
-## Run
+## RUN
 
 ### Run All Scripts
 
@@ -21,7 +23,12 @@ put into `scritps` directory.
     % SCRIPT=mac* npm start
 
 
-## Logs
+### set HTTP Port
+
+    % PORT=3000 npm start  # port:3000
+
+
+### Logs
 
 configure with env variable `DEBUG`
 
@@ -31,24 +38,44 @@ configure with env variable `DEBUG`
     % DEBUG=* npm start                     # print socket.io/engine.io/linda status
 
 
-## set HTTP Port
 
-    % PORT=3000 npm start  # port:3000
+## DEPLOY
 
-
-## Deploy on Heroku
+### for Heroku
 
 install [heroku toolbelt](https://toolbelt.heroku.com/) then
 
     % heroku create --app my-great-linda-worker-name
     % git push heroku master
     % heroku config:set 'DEBUG=linda:worker*'
+
     % heroku logs --tail
+    % heorku open
 
 edit `config.json`, set 'http://my-great-linda-worker-name.herokuapp.com' in `app.url`
 
 
-## Test
+### for launchd (Mac OSX)
+
+    % gem install foreman
+    % sudo foreman export launchd /Library/LaunchDaemons/ --app linda-worer -u `whoami`
+
+edit `/Library/LaunchDaemons/linda-worker-main-1.plist` then
+
+    % sudo launchctl load -w /Library/LaunchDaemons/linda-worker-main-1.plist
+
+
+### for upstart (Ubuntu/Debian)
+
+    % gem install foreman
+    % sudo foreman export upstart /etc/init/ --app linda-worker -d `pwd` -u `whoami`
+
+edit `/etc/init/linda-worker-web-1.conf` then
+
+    % sudo service linda-worker start
+
+
+## TEST
 
     % npm install grunt-cli -g
 
